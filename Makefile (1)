@@ -1,0 +1,11 @@
+CC=gcc
+CFLAGS=-Wall -Wextra
+TARGET=treasure_manager
+
+all: $(TARGET)
+
+$(TARGET): main.c treasure.c
+	$(CC) $(CFLAGS) -o $(TARGET) main.c treasure.c
+
+clean:
+	rm -f $(TARGET) logged_hunt-*
