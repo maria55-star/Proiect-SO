@@ -10,7 +10,7 @@ void start_monitor() {
     monitor_pid = fork();
 
     if (monitor_pid == 0) {
-        // Procesul copil va lansa monitorul
+        // procesul copil va lansa monitorul
         execl("./treasure_monitor", "treasure_monitor", NULL);
         perror("Eroare la lansarea monitorului");
         exit(1);
@@ -33,19 +33,19 @@ void stop_monitor() {
 
 void list_hunts() {
     if (monitor_pid != -1) {
-        kill(monitor_pid, SIGUSR1);  // Trimitem semnalul SIGUSR1 pentru a lista hunt-urile
+        kill(monitor_pid, SIGUSR1);  // trimitem semnalul SIGUSR1 pentru a lista hunt-urile
         printf("Se listă hunt-urile...\n");
     } else {
-        printf("Monitorul nu este în execuție.\n");
+        printf("Monitorul nu este în executie.\n");
     }
 }
 
 void list_treasures() {
     if (monitor_pid != -1) {
-        kill(monitor_pid, SIGUSR2);  // Trimitem semnalul SIGUSR2 pentru a lista comorile
-        printf("Se listă comorile...\n");
+        kill(monitor_pid, SIGUSR2);  // trimitem semnalul SIGUSR2 pentru a lista comorile
+        printf("Se listeaza comorile...\n");
     } else {
-        printf("Monitorul nu este în execuție.\n");
+        printf("Monitorul nu este în executie.\n");
     }
 }
 
@@ -54,14 +54,14 @@ int main() {
 
     while (1) {
         printf("Comenzi disponibile:\n");
-        printf("  start_monitor - începe monitorul\n");
-        printf("  stop_monitor - oprește monitorul\n");
-        printf("  list_hunts    - listează hunt-urile\n");
-        printf("  list_treasures- listează comorile\n");
-        printf("  exit          - părăsește programul\n");
+        printf("  start_monitor - incepe monitorul\n");
+        printf("  stop_monitor - opreste monitorul\n");
+        printf("  list_hunts    - listeaza hunt-urile\n");
+        printf("  list_treasures- listeaza comorile\n");
+        printf("  exit          - paraseste programul\n");
         printf("Introduceți comanda: ");
         fgets(command, sizeof(command), stdin);
-        command[strcspn(command, "\n")] = 0;  // Elimină newline-ul
+        command[strcspn(command, "\n")] = 0;  // elimina newline-ul
 
         if (strcmp(command, "start_monitor") == 0) {
             start_monitor();
@@ -77,7 +77,7 @@ int main() {
             }
             break;
         } else {
-            printf("Comandă invalidă!\n");
+            printf("comanda invalida!\n");
         }
     }
 

@@ -17,6 +17,6 @@ void add_treasure(const char *hunt_id, Treasure *treasure);
 void list_treasures(const char *hunt_id);
 void view_treasure(const char *hunt_id, int id);
 void remove_treasure(const char *hunt_id, int id);
-void list_hunts(); // Adăugat prototipul pentru list_hunts
+void list_hunts(); 
 
 #endif

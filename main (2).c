@@ -2,12 +2,12 @@
 #include <stdio.h>
 #include <string.h>
 #include <unistd.h>
-#include <signal.h> // Adăugat header-ul necesar pentru semnale
+#include <signal.h> // header-ul necesar pentru semnale
 
 void start_monitor() {
     pid_t pid = fork();
     if (pid == 0) {
-        // Codul procesului monitor
+        // codul procesului monitor
         execl("./treasure_monitor", "treasure_monitor", NULL);
     }
     else if (pid < 0) {
@@ -16,7 +16,7 @@ void start_monitor() {
 }
 
 void stop_monitor(pid_t monitor_pid) {
-    kill(monitor_pid, SIGINT);  // SIGINT este acum definit corect
+    kill(monitor_pid, SIGINT);  
 }
 
 int main() {
@@ -24,7 +24,7 @@ int main() {
     pid_t monitor_pid = -1;
 
     while (1) {
-        printf("Introduceți o comandă (start_monitor, list_hunts, exit): ");
+        printf("Introduceti o comanda (start_monitor, list_hunts, exit): ");
         fgets(command, sizeof(command), stdin);
 
         if (strncmp(command, "start_monitor", 13) == 0) {
@@ -34,14 +34,14 @@ int main() {
             if (monitor_pid != -1) {
                 stop_monitor(monitor_pid);
             } else {
-                printf("Monitorul nu este în execuție.\n");
+                printf("Monitorul nu este în executie.\n");
             }
         } 
         else if (strncmp(command, "exit", 4) == 0) {
             break;
         } 
         else {
-            printf("Comandă necunoscută.\n");
+            printf("Comanda necunoscuta.\n");
         }
     }
 

@@ -3,19 +3,19 @@
 #include <signal.h>
 #include <unistd.h>
 #include <string.h>
-#include "treasure.h" // Asigură-te că ai fișierul header corect inclus
+#include "treasure.h" 
 
-// Semnătura corectă a funcțiilor care interacționează cu comorile
+
 extern void list_treasures(const char *hunt_id);
 extern void view_treasure(const char *hunt_id, int treasure_id);
 extern void remove_treasure(const char *hunt_id, int treasure_id);
 
-// Funcția care tratează semnalele
+// functia care trateaza semnalele
 void handle_signal(int sig) {
     switch (sig) {
         case SIGINT:
             printf("\nMonitorul a primit semnalul SIGINT. Opriți monitorul.\n");
-            // Poți adăuga funcționalitate pentru oprirea monitorului
+        
             break;
         case SIGUSR1:
             printf("\nMonitorul a primit semnalul SIGUSR1. Listarea comorilor.\n");
@@ -31,7 +31,7 @@ void handle_signal(int sig) {
     }
 }
 
-// Funcție pentru a înregistra semnalele
+// functie pentru a inregistra semnalele
 void setup_signal_handlers() {
     if (signal(SIGINT, handle_signal) == SIG_ERR) {
         perror("Eroare la inregistrarea semnalului SIGINT");
@@ -47,16 +47,16 @@ void setup_signal_handlers() {
     }
 }
 
-// Funcția principală care va rula monitorul
+// functia principala care va rula monitorul
 int main() {
-    // Configurăm semnalele
+    // configuram semnalele
     setup_signal_handlers();
 
-    // Așteaptă semnale pentru a le procesa
+    // asteapta semnale pentru a le procesa
     printf("Monitorul a fost lansat. Aștept semnale...\n");
 
     while (1) {
-        pause(); // Așteaptă semnale
+        pause(); // asteapta semnale
     }
 
     return 0;
