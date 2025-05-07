@@ -1,11 +1,22 @@
-CC=gcc
-CFLAGS=-Wall -Wextra
-TARGET=treasure_manager
+CC = gcc
+CFLAGS = -Wall -Wextra
 
-all: $(TARGET)
+all: treasure_hub treasure_monitor
 
-$(TARGET): main.c treasure.c
-	$(CC) $(CFLAGS) -o $(TARGET) main.c treasure.c
+treasure_hub: main.o treasure.o
+	$(CC) $(CFLAGS) -o treasure_hub main.o treasure.o
+
+treasure_monitor: treasure_monitor.o treasure.o
+	$(CC) $(CFLAGS) -o treasure_monitor treasure_monitor.o treasure.o
+
+main.o: main.c treasure.h
+	$(CC) $(CFLAGS) -c main.c
+
+treasure.o: treasure.c treasure.h
+	$(CC) $(CFLAGS) -c treasure.c
+
+treasure_monitor.o: treasure_monitor.c treasure.h
+	$(CC) $(CFLAGS) -c treasure_monitor.c
 
 clean:
-	rm -f $(TARGET) logged_hunt-*
+	rm -f *.o treasure_hub treasure_monitor

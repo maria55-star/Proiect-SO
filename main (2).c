@@ -1,37 +1,48 @@
+#include "treasure.h"
 #include <stdio.h>
 #include <string.h>
-#include <stdlib.h>
-#include "treasure.h"
+#include <unistd.h>
+#include <signal.h> // Adăugat header-ul necesar pentru semnale
 
-int main(int argc, char* argv[]) {
-    if (argc < 3) {
-        printf("Usage:\n");
-        printf("  %s add <hunt_id>\n", argv[0]);
-        printf("  %s list <hunt_id>\n", argv[0]);
-        printf("  %s view <hunt_id> <treasure_id>\n", argv[0]);
-        printf("  %s remove_treasure <hunt_id> <treasure_id>\n", argv[0]);
-        printf("  %s remove_hunt <hunt_id>\n", argv[0]);
-        return 1;
+void start_monitor() {
+    pid_t pid = fork();
+    if (pid == 0) {
+        // Codul procesului monitor
+        execl("./treasure_monitor", "treasure_monitor", NULL);
     }
+    else if (pid < 0) {
+        perror("Eroare la crearea procesului monitor");
+    }
+}
 
-    const char* command = argv[1];
-    const char* hunt_id = argv[2];
+void stop_monitor(pid_t monitor_pid) {
+    kill(monitor_pid, SIGINT);  // SIGINT este acum definit corect
+}
 
-    if (strcmp(command, "add") == 0 && argc == 3) {
-        add_treasure(hunt_id);
-    } else if (strcmp(command, "list") == 0 && argc == 3) {
-        list_treasures(hunt_id);
-    } else if (strcmp(command, "view") == 0 && argc == 4) {
-        int treasure_id = atoi(argv[3]);
-        view_treasure(hunt_id, treasure_id);
-    } else if (strcmp(command, "remove_treasure") == 0 && argc == 4) {
-        int treasure_id = atoi(argv[3]);
-        remove_treasure(hunt_id, treasure_id);
-    } else if (strcmp(command, "remove_hunt") == 0 && argc == 3) {
-        remove_hunt(hunt_id);
-    } else {
-        printf("Invalid command or arguments.\n");
-        return 1;
+int main() {
+    char command[256];
+    pid_t monitor_pid = -1;
+
+    while (1) {
+        printf("Introduceți o comandă (start_monitor, list_hunts, exit): ");
+        fgets(command, sizeof(command), stdin);
+
+        if (strncmp(command, "start_monitor", 13) == 0) {
+            start_monitor();
+        } 
+        else if (strncmp(command, "stop_monitor", 12) == 0) {
+            if (monitor_pid != -1) {
+                stop_monitor(monitor_pid);
+            } else {
+                printf("Monitorul nu este în execuție.\n");
+            }
+        } 
+        else if (strncmp(command, "exit", 4) == 0) {
+            break;
+        } 
+        else {
+            printf("Comandă necunoscută.\n");
+        }
     }
 
     return 0;
