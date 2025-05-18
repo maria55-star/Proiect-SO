@@ -1,0 +1,6 @@
+gcc -Wall -c treasure.c
+gcc -Wall -c main.c
+gcc -Wall -o main main.c treasure.c
+gcc -Wall -o treasure_monitor treasure_monitor.c
+gcc -Wall -o treasure_hub treasure_hub.c
+gcc -Wall -o calculate_score calculate_score.c

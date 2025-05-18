@@ -1,0 +1,31 @@
+CC = gcc
+CFLAGS = -Wall -Wextra -g
+
+# Sources
+TM_SOURCES = main.c treasure.c
+MONITOR_SOURCES = treasure_monitor.c treasure.c
+HUB_SOURCES = treasure_hub.c treasure.c
+
+# Objects
+TM_OBJECTS = $(TM_SOURCES:.c=.o)
+MONITOR_OBJECTS = $(MONITOR_SOURCES:.c=.o)
+HUB_OBJECTS = $(HUB_SOURCES:.c=.o)
+
+# Targets
+TM_TARGET = treasure_manager
+MONITOR_TARGET = treasure_monitor
+HUB_TARGET = treasure_hub
+
+all: $(HUB_TARGET) $(MONITOR_TARGET)
+
+$(HUB_TARGET): treasure_hub.o treasure.o
+	$(CC) $(CFLAGS) -o $@ $^
+
+$(MONITOR_TARGET): treasure_monitor.o treasure.o
+	$(CC) $(CFLAGS) -o $@ $^
+
+$(TM_TARGET): $(TM_OBJECTS)
+	$(CC) $(CFLAGS) -o $@ $^
+
+clean:
+	rm -f *.o $(TM_TARGET) $(MONITOR_TARGET) $(HUB_TARGET)
